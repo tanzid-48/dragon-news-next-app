@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +10,14 @@ const LoginPage = () => {
   const handleLogin = async (data) => {
     console.log(data);
 
+    const { data:res, error } = await authClient.signIn.email({
+      email: data.email, // required
+      password: data.password, // required
+      rememberMe: true,
+      callbackURL: "/",
+    });
+
+    console.log(res,error);
 
     // e.preventDefault();
     // const formData = new FormData(e.currentTarget)
@@ -57,7 +66,10 @@ const LoginPage = () => {
             <span className="validator-hint hidden">Required</span>
           </label>
 
-          <button className="btn bg-black/50 text-white mt-4 mb-2" type="submit">
+          <button
+            className="btn bg-black/50 text-white mt-4 mb-2"
+            type="submit"
+          >
             Login
           </button>
         </form>
