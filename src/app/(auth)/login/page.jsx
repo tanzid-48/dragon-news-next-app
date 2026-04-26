@@ -1,34 +1,29 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { register, reset, handleSubmit } = useForm();
-
+ 
   const handleLogin = async (data) => {
-    // console.log(data);
-
+ 
     const { data: res, error } = await authClient.signIn.email({
-      email: data.email, // required
-      password: data.password, // required
+      email: data.email,
+      password: data.password,
       rememberMe: true,
       callbackURL: "/",
     });
-
-    if (error) {
+  if (error) {
       toast.error(error.message);
       return;
     }
     toast.success("Login Successfully!");
-    reset();
-
-    // e.preventDefault();
-    // const formData = new FormData(e.currentTarget)
-    //  const userData = Object.fromEntries(formData.entries());
-    // console.log(userData,"hi");
+     reset();
   };
 
   return (
@@ -47,10 +42,10 @@ const LoginPage = () => {
               Email address
             </label>
             <input
-              name="email"
-              {...register("email")}
+ 
+           {...register("email")}
               type="email"
-              className="input validator"
+              className="input validator w-full"
               placeholder="Enter your email address"
               required
             />
@@ -61,14 +56,22 @@ const LoginPage = () => {
             <span className="label text-sm font-semibold text-black">
               Password
             </span>
-            <input
-              name="password"
-              {...register("password")}
-              type="password"
-              className="input validator"
-              placeholder="Enter your password"
-              required
-            />
+            <div className="relative">
+              <input
+                {...register("password")}
+                type={showPassword ? "text" : "password"}
+                className="input validator w-full"
+                placeholder="Enter your password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
             <span className="validator-hint hidden">Required</span>
           </label>
 
