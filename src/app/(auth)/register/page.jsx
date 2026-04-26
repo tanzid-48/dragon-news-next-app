@@ -1,20 +1,21 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const RegisterPage = () => {
-
+ const router = useRouter();
   const handleRegister = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     const { data: res, error } = await authClient.signUp.email({
-      name: data.name, // required
-      email: data.email, // required
-      password: data.password, // required
+      name: data.name, 
+      email: data.email,
+      password: data.password,
       image: data.photo,
-      callbackURL: "/",
+      // callbackURL: "/login",
     });
     if (error) {
      toast.error(error.message);
@@ -22,6 +23,7 @@ const RegisterPage = () => {
     }
     toast.success("Register Successfully Done!");
     reset(); 
+     router.push("/login");
   };
 
   const {
@@ -31,8 +33,8 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm();
   return (
-    <div className="mt-5">
-      <div className="container mx-auto min-h-[80vh] flex justify-center items-center bg-slate-100">
+    <div className="">
+      <div className="container mx-auto min-h-[80vh] flex justify-center items-center bg-slate-100 pt-2">
         <div className="p-4 rounded-xl  bg-white">
           <h2 className="font-medium text-2xl text-center mb-6">
             Register your account
