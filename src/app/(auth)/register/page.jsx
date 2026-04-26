@@ -2,6 +2,7 @@
 import { authClient } from "@/lib/auth-client";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
 
@@ -16,16 +17,17 @@ const RegisterPage = () => {
       callbackURL: "/",
     });
     if (error) {
-      console.log("Error details:", error.message);
+     toast.error(error.message);
       return;
     }
-    alert("Sign Up Successfully!");
-    console.log(res, error);
+    toast.success("Register Successfully Done!");
+    reset(); 
   };
 
   const {
     register,
     handleSubmit,
+     reset, 
     formState: { errors },
   } = useForm();
   return (

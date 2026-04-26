@@ -1,5 +1,6 @@
 import {  Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -25,8 +26,8 @@ export default function RootLayout({ children }) {
       className={`h-full antialiased`}
     >
       <body className= {`${poppins.className} min-h-full flex flex-col`}>
-      
-        <main>{children}</main>
+       <main>{children}</main>
+       <Toaster position="top-right" richColors />
       </body>
     </html>
   );

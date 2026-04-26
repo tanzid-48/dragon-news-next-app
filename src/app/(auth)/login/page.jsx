@@ -3,21 +3,27 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const LoginPage = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, reset, handleSubmit } = useForm();
 
   const handleLogin = async (data) => {
-    console.log(data);
+    // console.log(data);
 
-    const { data:res, error } = await authClient.signIn.email({
+    const { data: res, error } = await authClient.signIn.email({
       email: data.email, // required
       password: data.password, // required
       rememberMe: true,
       callbackURL: "/",
     });
 
-    console.log(res,error);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Login Successfully!");
+    reset();
 
     // e.preventDefault();
     // const formData = new FormData(e.currentTarget)
@@ -73,9 +79,9 @@ const LoginPage = () => {
             Login
           </button>
         </form>
-        <span className="m-5 ">
-          Do not Have An Account?
-          <Link href={`/register`} className="text-purple-500 ">
+        <span className="m-5">
+          Do not Have An Account?{" "}
+          <Link href="/register" className="text-purple-500">
             Register
           </Link>
         </span>
