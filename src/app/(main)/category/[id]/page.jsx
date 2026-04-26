@@ -4,6 +4,16 @@ import React from "react";
 import { getCategories, getNewsByCategoryId } from "../../../../lib/data";
 import NewsCard from "@/components/homePage/news/NewsCard";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  const category = await getCategoryNameById(id);
+
+  return {
+    title: category?.name || "Category",
+    description: `Browse latest ${category?.name || "category"} news on Dragon News.`,
+  };
+}
 const NewsCategoryPage = async ({ params }) => {
   const { id } = await params;
   console.log(id, "id");
