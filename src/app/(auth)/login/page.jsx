@@ -1,21 +1,39 @@
+"use client";
 import Link from "next/link";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
+  const { register, handleSubmit } = useForm();
+
+  const handleLogin = async (data) => {
+    console.log(data);
+
+
+    // e.preventDefault();
+    // const formData = new FormData(e.currentTarget)
+    //  const userData = Object.fromEntries(formData.entries());
+    // console.log(userData,"hi");
+  };
+
   return (
     <div className="container mx-auto min-h-[80vh] flex justify-center items-center bg-slate-100">
       <div className="p-4 rounded-xl bg-white">
         <h2 className="font-medium text-2xl text-center mb-6">
-        Login your account
+          Login your account
         </h2>
         <div className="divider"></div>
-        <form className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+        >
           <fieldset className="fieldset">
             <label className="label text-sm font-semibold text-black">
               Email address
             </label>
             <input
               name="email"
+              {...register("email")}
               type="email"
               className="input validator"
               placeholder="Enter your email address"
@@ -29,7 +47,8 @@ const LoginPage = () => {
               Password
             </span>
             <input
-             name="password"
+              name="password"
+              {...register("password")}
               type="password"
               className="input validator"
               placeholder="Enter your password"
@@ -38,14 +57,14 @@ const LoginPage = () => {
             <span className="validator-hint hidden">Required</span>
           </label>
 
-          <button className="btn btn-neutral mt-4 mb-2" type="submit">
+          <button className="btn bg-black/50 text-white mt-4 mb-2" type="submit">
             Login
           </button>
         </form>
         <span className="m-5 ">
-          Dont’t Have An Account ?{" "}
+          Do not Have An Account?
           <Link href={`/register`} className="text-purple-500 ">
-          Register
+            Register
           </Link>
         </span>
       </div>
